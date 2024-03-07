@@ -1,5 +1,4 @@
 import ListItems from "./ListItems.jsx";
-
 import { useState } from "react";
 
 export default function List() {
@@ -40,16 +39,14 @@ export default function List() {
     const filteredItems = lampor.filter((lampa) => {
       const lowerSearchInput = searchInput.toLowerCase();
       const lowerLampaName = lampa.name.toLowerCase();
-      const lowerKeyWords = lampa.keywords.map((keyword) => {
-        keyword.toLowerCase;
-      });
-
+      const lowerKeywords = lampa.keywords.map((keyword) =>
+        keyword.toLowerCase()
+      );
       return (
         lowerLampaName.includes(lowerSearchInput) ||
-        lowerKeyWords.includes(lowerSearchInput)
+        lowerKeywords.includes(lowerSearchInput)
       );
     });
-
     setFilteredLampor(filteredItems);
   };
 
@@ -59,7 +56,10 @@ export default function List() {
         id="search"
         type="text"
         placeholder="search here"
-        onChange={(e) => setSearchInput(e.target.value)}
+        onChange={(e) => {
+          setSearchInput(e.target.value);
+          searchItems(); // Call searchItems whenever input changes
+        }}
       />
       <div className="product clearfix">
         {filteredLampor.map((lampa) => (
