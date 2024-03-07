@@ -33,22 +33,6 @@ export default function List() {
   ];
 
   const [searchInput, setSearchInput] = useState("");
-  const [filteredLampor, setFilteredLampor] = useState(lampor);
-
-  const searchItems = () => {
-    const filteredItems = lampor.filter((lampa) => {
-      const lowerSearchInput = searchInput.toLowerCase();
-      const lowerLampaName = lampa.name.toLowerCase();
-      const lowerKeywords = lampa.keywords.map((keyword) =>
-        keyword.toLowerCase()
-      );
-      return (
-        lowerLampaName.includes(lowerSearchInput) ||
-        lowerKeywords.includes(lowerSearchInput)
-      );
-    });
-    setFilteredLampor(filteredItems);
-  };
 
   return (
     <>
@@ -56,16 +40,21 @@ export default function List() {
         id="search"
         type="text"
         placeholder="search here"
-        onChange={(e) => {
-          setSearchInput(e.target.value);
-          searchItems(); // Call searchItems whenever input changes
-        }}
+        onChange={(e) => {setSearchInput(e.target.value);}}
       />
       <div className="product clearfix">
-        {filteredLampor.map((lampa) => (
-          <ListItems lampa={lampa} key={lampa.id} />
-        ))}
+        
+          {lampor.filter((lampa) => {
+            return searchInput.toLowerCase() === "" ?
+            lampa : lampa.name.toLowerCase().includes(searchInput)
+          })
+          .map((lampa) => (
+            <ListItems  key={lampa.id} lampa={lampa}/>
+          ))}
+        
       </div>
+
+      
     </>
   );
 }
